@@ -1,0 +1,109 @@
+This is the schema after ingesting this file:
+
+path = '/tank/tmp/blw-testing/hudi-tables/qa-hudi-test/raw-data/qa-no-lat-lon.snappy.parquet'
+
+Which DOES NOT have the latitude and longitude columns.
+
+trino> select count(*) from hive.huditest.qatest_rt;
+  _col0  
+---------
+ 7,331,606 
+(1 row)
+
+trino> show columns from hive.huditest.qatest_rt;
+          Column          |         Type          |     Extra     | Comment 
+--------------------------+-----------------------+---------------+---------
+ _hoodie_commit_time      | varchar               |               |         
+ _hoodie_commit_seqno     | varchar               |               |         
+ _hoodie_record_key       | varchar               |               |         
+ _hoodie_partition_path   | varchar               |               |         
+ _hoodie_file_name        | varchar               |               |         
+ advertiser_id            | varchar               |               |         
+ advertiser_id_type       | varchar               |               |         
+ altitude                 | double                |               |         
+ delivery_date            | date                  |               |         
+ device_make              | varchar               |               |         
+ device_model             | varchar               |               |         
+ entity_record_id         | varchar               |               |         
+ horizontal_accuracy      | double                |               |         
+ ipv4_address             | varchar               |               |         
+ ipv6_address             | varchar               |               |         
+ is_in_gadm_uid           | integer               |               |         
+ is_in_gadm_version       | varchar               |               |         
+ is_in_hasc               | varchar               |               |         
+ is_in_iso3               | varchar               |               |         
+ operating_system         | varchar               |               |         
+ operating_system_version | varchar               |               |         
+ raw_location_method      | varchar               |               |         
+ record_created_time      | varchar               |               |         
+ tags                     | map(varchar, varchar) |               |         
+ telecomm_carrier         | varchar               |               |         
+ vertical_accuracy        | real                  |               |         
+ wifi_bssid               | varchar               |               |         
+ wifi_ssid                | varchar               |               |         
+ sfc_index                | varchar               |               |         
+ uuid                     | bigint                |               |         
+ sfc_part                 | varchar               | partition key |         
+(31 rows)
+
+After ingesting:
+
+path = '/tank/tmp/blw-testing/hudi-tables/qa-hudi-test/raw-data/qa-no-sfc-idx.snappy.parquet' 
+
+Which does NOT have the sfc_index field, but does have latitude and longitude:
+
+trino> select count(*) from hive.huditest.qatest_rt;
+  _col0   
+----------
+ 1,633,495 
+(1 row)
+
+trino> show columns from hive.huditest.qatest_rt;
+          Column          |         Type          |     Extra     | Comment 
+--------------------------+-----------------------+---------------+---------
+ _hoodie_commit_time      | varchar               |               |         
+ _hoodie_commit_seqno     | varchar               |               |         
+ _hoodie_record_key       | varchar               |               |         
+ _hoodie_partition_path   | varchar               |               |         
+ _hoodie_file_name        | varchar               |               |         
+ advertiser_id            | varchar               |               |         
+ advertiser_id_type       | varchar               |               |         
+ altitude                 | double                |               |         
+ delivery_date            | date                  |               |         
+ device_make              | varchar               |               |         
+ device_model             | varchar               |               |         
+ entity_record_id         | varchar               |               |         
+ horizontal_accuracy      | double                |               |         
+ ipv4_address             | varchar               |               |         
+ ipv6_address             | varchar               |               |         
+ is_in_gadm_uid           | integer               |               |         
+ is_in_gadm_version       | varchar               |               |         
+ is_in_hasc               | varchar               |               |         
+ is_in_iso3               | varchar               |               |         
+ latitude                 | double                |               |         
+ longitude                | double                |               |         
+ operating_system         | varchar               |               |         
+ operating_system_version | varchar               |               |         
+ raw_location_method      | varchar               |               |         
+ record_created_time      | varchar               |               |         
+ tags                     | map(varchar, varchar) |               |         
+ telecomm_carrier         | varchar               |               |         
+ vertical_accuracy        | real                  |               |         
+ wifi_bssid               | varchar               |               |         
+ wifi_ssid                | varchar               |               |         
+ sfc_index                | varchar               |               |         
+ uuid                     | bigint                |               |         
+ sfc_part                 | varchar               | partition key |         
+(33 rows)
+
+After ingesting: 
+
+path = '/tank/tmp/blw-testing/hudi-tables/qa-hudi-test/raw-data/qa-no-wifi.snappy.parquet'
+
+Which does NOT have the wifi_ssid or wifi_bssid fields:
+
+trino> select count(*) from hive.huditest.qatest_rt;
+  _col0   
+----------
+ 25,022,511 
+(1 row)

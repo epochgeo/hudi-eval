@@ -31,9 +31,9 @@ SedonaRegistrator.registerAll(spark)
 spark.sparkContext.setLogLevel('WARN')
 
 # QQ data with different schemas
-path = '/tank/tmp/blw-testing/hudi-tables/qa-hudi-test/raw-data/qa-no-lat-lon.snappy.parquet'
+# path = '/tank/tmp/blw-testing/hudi-tables/qa-hudi-test/raw-data/qa-no-lat-lon.snappy.parquet'
 # path = '/tank/tmp/blw-testing/hudi-tables/qa-hudi-test/raw-data/qa-no-sfc-idx.snappy.parquet' 
-# path = '/tank/tmp/blw-testing/hudi-tables/qa-hudi-test/raw-data/qa-no-wifi.snappy.parquet'
+path = '/tank/tmp/blw-testing/hudi-tables/qa-hudi-test/raw-data/qa-no-wifi.snappy.parquet'
 
 df = spark.read.parquet(path)
 
@@ -84,9 +84,10 @@ hudi_options = {
     'hoodie.datasource.write.table.type': 'MERGE_ON_READ',
     'hoodie.datasource.write.operation': 'insert',
     'hoodie.datasource.write.hive_style_partitioning': 'true',
-    # These two are critical for supporting dynamic schemas
+    # These three are critical for supporting dynamic schemas
     'hoodie.datasource.write.schema.allow.auto.evolution.column.drop': 'true',
-    'hoodie.datasource.write.reconcile.schema': 'true'
+    'hoodie.datasource.write.reconcile.schema': 'true',
+    'hoodie.schema.on.read.enable': 'true'
 }
 
 df.write.format('hudi')\
